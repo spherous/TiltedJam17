@@ -100,6 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 12
+  interactionBoxOffset: {x: 1, y: 0}
+  interactionBoxSize: {x: 1, y: 1}
+  itemsLayers:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!50 &3585522349283930489
 Rigidbody2D:
   serializedVersion: 4
