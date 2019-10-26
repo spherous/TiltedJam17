@@ -11,6 +11,7 @@ public class DumbEnemy : MonoBehaviour
     [Range(0f, 50f)] [SerializeField] private float _speed = 5f;
     [Range(.1f, 10)] [SerializeField] private float _spawnTimerInSeconds = 2;
     [SerializeField] private GameObject _target;
+    [SerializeField] private GameObject _girlDancer;
     
 
     private Rigidbody2D _rb;
@@ -29,6 +30,7 @@ public class DumbEnemy : MonoBehaviour
         States = new Dictionary<string, Action>();
         States["DefaultState"] = DefaultState;
         States["Spawn"] = Spawn;
+        States["Scared"] = Scared;
     }
 
     private void Start()
@@ -40,6 +42,12 @@ public class DumbEnemy : MonoBehaviour
     void Update()
     {
         States[_currentState]();
+
+        float distFromGirl = Mathf.Abs(Vector3.Distance(transform.position, _girlDancer.transform.position));
+        if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().maxLightRadius)
+        {
+            EnterScaredState();
+        }
     }
 
     void FixedUpdate()
@@ -82,6 +90,17 @@ public class DumbEnemy : MonoBehaviour
     private void ExitSpawnState()
     {
         EnterDefaultState();
+    }
+
+    private void EnterScaredState()
+    {
+        _currentState = "Scared";
+        moveVec = Vector2.zero;
+    }
+
+    private void Scared()
+    {
+        Debug.Log("I'm scared");
     }
 
     //FUNCTIONS

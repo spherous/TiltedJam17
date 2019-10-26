@@ -144,6 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  _speed: 1.8
+  _speed: 3.5
   _spawnTimerInSeconds: 1
   _target: {fileID: 0}
