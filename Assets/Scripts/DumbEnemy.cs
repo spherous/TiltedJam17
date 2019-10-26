@@ -31,7 +31,7 @@ public class DumbEnemy : MonoBehaviour
         _baseSpeed = _speed;
 
         States = new Dictionary<string, Action>();
-        States["DefaultState"] = DefaultState;
+        States["DefaultState"] = DefaultState; // Chase player
         States["Spawn"] = Spawn;
         States["Scared"] = Scared;
     }
@@ -46,6 +46,7 @@ public class DumbEnemy : MonoBehaviour
     {
         States[_currentState]();
 
+        // Is this enemy in the girls light radius
         float distFromGirl = Mathf.Abs(Vector3.Distance(transform.position, _girlDancer.transform.position));
         if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius)
         {
@@ -81,7 +82,7 @@ public class DumbEnemy : MonoBehaviour
 
     private void EnterSpawnState()
     {
-        // Make Invisible
+        // Enemy starts invisible
         var color = _spriteRenderer.color;
         color.a = 0;
         _spriteRenderer.color = color;
@@ -122,7 +123,7 @@ public class DumbEnemy : MonoBehaviour
 
     void MoveAwayFromGirl()
     {
-        _speed = _baseSpeed / 3f;
+        _speed = _baseSpeed / 4f;
         moveVec = (Vector2)(transform.position - _girlDancer.transform.position).normalized;
     }
 
