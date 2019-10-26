@@ -81,6 +81,8 @@ public class TopDownMove : MonoBehaviour
     void DefaultState()
     {
         SetMoveDir();  
+        SetInteractionBoxOffset();
+
         if(Input.GetKeyDown(KeyCode.E))
             TryInteract();  
     }
@@ -143,6 +145,30 @@ public class TopDownMove : MonoBehaviour
                 }  
             }
         }
+    }
+
+Vector2[] cardinalDirections= {
+            new Vector2 (-1,0),
+            new Vector2 (0,1),
+            new Vector2 (1,0),
+            new Vector2 (0,-1)
+        };
+
+    void SetInteractionBoxOffset()
+    {
+        
+        float[] dots = new float[4];
+        for(int i = 0 ; i < 4; i++)
+        {
+            dots[i] = Vector2.Dot( cardinalDirections[i] , moveVec.normalized );
+        }
+        int maxi = 0;
+        for(int i = 0 ; i < 4; i++)
+        {
+            if(dots[i] > dots[maxi])
+                maxi = i;
+        }
+        interactionBoxOffset = cardinalDirections[maxi];
     }
 
     bool CheckBoxOverlap( Vector2 center, Vector2 size, float rotation, LayerMask checkLayers)
