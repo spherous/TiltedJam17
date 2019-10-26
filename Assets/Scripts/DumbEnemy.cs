@@ -20,12 +20,15 @@ public class DumbEnemy : MonoBehaviour
     private Dictionary<string, Action> States;
     private string _currentState;
     private Vector2 moveVec;
+    private float _baseSpeed;
 
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        _baseSpeed = _speed;
 
         States = new Dictionary<string, Action>();
         States["DefaultState"] = DefaultState;
@@ -44,7 +47,7 @@ public class DumbEnemy : MonoBehaviour
         States[_currentState]();
 
         float distFromGirl = Mathf.Abs(Vector3.Distance(transform.position, _girlDancer.transform.position));
-        if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().maxLightRadius)
+        if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius)
         {
             EnterScaredState();
         }
@@ -68,7 +71,7 @@ public class DumbEnemy : MonoBehaviour
     // Default state is to chase the player
     void DefaultState()
     {
-        SetMoveDir();
+        MoveTowardsPlayer();
     }
 
     void ExitDefaultState()
@@ -96,11 +99,12 @@ public class DumbEnemy : MonoBehaviour
     {
         _currentState = "Scared";
         moveVec = Vector2.zero;
+        Invoke("EnterDefaultState", 4f);
     }
 
     private void Scared()
     {
-        Debug.Log("I'm scared");
+        MoveAwayFromGirl();
     }
 
     //FUNCTIONS
@@ -110,9 +114,16 @@ public class DumbEnemy : MonoBehaviour
         moveVec = Vector2.zero;
     }
 
-    void SetMoveDir()
+    void MoveTowardsPlayer()
     {
+        _speed = _baseSpeed;
         moveVec = (Vector2)(_target.transform.position - transform.position).normalized;
+    }
+
+    void MoveAwayFromGirl()
+    {
+        _speed = _baseSpeed / 3f;
+        moveVec = (Vector2)(transform.position - _girlDancer.transform.position).normalized;
     }
 
     // The enemy will fade in over time
