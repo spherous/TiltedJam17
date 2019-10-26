@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBase : MonoBehaviour
+[RequireComponent(typeof(Sprite))]
+public abstract class ItemBase : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    Sprite UISprite;
+    string itemname;
+    public abstract bool Use(GameObject g);
+    public abstract bool Pickup(GameObject g);
 }
