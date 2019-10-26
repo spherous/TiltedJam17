@@ -5,6 +5,7 @@ using UnityEngine;
 public class DancingGirl : MonoBehaviour
 {
     public GameObject player;
+    
     private void Update()
     {
         // Get the distance to the player
