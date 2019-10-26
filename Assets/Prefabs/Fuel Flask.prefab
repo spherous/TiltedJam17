@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7332470383248383883}
   - component: {fileID: 308056017294417946}
   - component: {fileID: 8340604102101963706}
-  m_Layer: 0
+  - component: {fileID: 4661462708131800791}
+  m_Layer: 12
   m_Name: Fuel Flask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +124,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0ae108c15f758499d2cdb5ca03ad5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4661462708131800791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126068936431515307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18051f64b45139b48806ab06f5248052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 1
+  amount: 300
 --- !u!1 &6152370654656780463
 GameObject:
   m_ObjectHideFlags: 0
