@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public GameObject player;
-    public GameObject dancer;
+    public Player player;
+    public DancingGirl dancer;
+
+    public void Lose()
+    {
+        Debug.Log("You lose.");
+    }
 }
