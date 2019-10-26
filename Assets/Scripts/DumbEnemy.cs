@@ -96,6 +96,7 @@ public class DumbEnemy : MonoBehaviour
         moveVec = (Vector2)(_target.transform.position - transform.position).normalized;
     }
 
+    // The enemy will fade in over time
     private float _spawnCounter = 0;
     private void Spawn()
     {
