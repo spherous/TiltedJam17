@@ -25,7 +25,9 @@ public class TopDownMove : MonoBehaviour
     Collider2D[] colliders;
     int collidersSize;
     public LayerMask itemsLayers;
-    GameObject item;
+    GameObject[] items;
+    public int maxItems;
+    public int currentItems = 0 ;
 
     /*
     animation state
@@ -49,6 +51,7 @@ public class TopDownMove : MonoBehaviour
         state= "DefaultState";
         States["DefaultState"] = DefaultState;
         colliders = new Collider2D[8];
+        items = new GameObject[maxItems];
     }
     // Start is called before the first frame update
     void Start()
@@ -114,7 +117,7 @@ public class TopDownMove : MonoBehaviour
 
     void TryInteract()
     {
-        if(item == null) //are we already holding something? if not...
+        if(currentItems < maxItems) //are we already at capacity ?...
         {
             if( CheckBoxOverlap((Vector2)transform.position + interactionBoxOffset , interactionBoxSize , 0f, itemsLayers )) //try picking something up
             {
@@ -124,27 +127,39 @@ public class TopDownMove : MonoBehaviour
                     colliders[i].gameObject.TryGetComponent(out ib);
                     if(ib != null)
                     {
-                        if (ib.Pickup(gameObject))
+                        if (ib.Pickup(gameObject,currentItems))
                         {
-                            item = colliders[i].gameObject;
+                            AddItem( colliders[i].gameObject );
                             break;
                         }
                     }
                 }
             }
         }
-        else //we have something, try using our item on it. 
+        if(currentItems > 0) //we have something, try using our item on it. 
         {
             collidersSize = Physics2D.OverlapBoxNonAlloc( (Vector2) transform.position + interactionBoxOffset , interactionBoxSize , 0f , colliders );//dont care about layers
             for( int i = 0 ; i < collidersSize ; i++)
             {
-                if( item.GetComponent<ItemBase>().Use(colliders[i].gameObject) ) //when "Use" returns true, quit out;
+                if( items[currentItems-1].GetComponent<ItemBase>().Use(colliders[i].gameObject) ) //when "Use" returns true, quit out;
                 {
-                    item = null;
+                    PopItem();
                     return;
                 }  
             }
         }
+    }
+
+    void AddItem(GameObject g) //must be called from context where currentItems< maxItems is guaranteed
+    {
+        items[currentItems] = g;
+        currentItems ++;
+    }
+
+    void PopItem() // must be called from context where currentItems > 0 is guaranteed
+    {
+        items[currentItems-1]= null;
+        currentItems--;
     }
 
 Vector2[] cardinalDirections= {
