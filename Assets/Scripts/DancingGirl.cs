@@ -9,7 +9,8 @@ public class DancingGirl : MonoBehaviour
     GameManager gm => GameManager.Instance;
 
     public Light2D girlLight;
-    public float maxLightRadius;
+    public float maxLightOuterRadius;
+    public float maxLightInnerRadius;
 
     public float stoppingDistanceOffset;
 
@@ -71,6 +72,9 @@ public class DancingGirl : MonoBehaviour
     public void DrainFuel()
     {
         currentFuel = currentFuel - fuelConsumptionRatePerFrame <= 0 ? 0 : currentFuel - fuelConsumptionRatePerFrame;
+
+        girlLight.pointLightOuterRadius = maxLightOuterRadius * (currentFuel/maxFuel);
+        girlLight.pointLightInnerRadius = maxLightInnerRadius * (currentFuel/maxFuel);
 
         if(currentFuel == 0)
             gm.Lose(); 

@@ -169,15 +169,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   girlLight: {fileID: 4807798166027119345}
-  maxLightRadius: 8
+  maxLightOuterRadius: 10
+  maxLightInnerRadius: 7
   stoppingDistanceOffset: 1.4
   currentFuel: 1000
   maxFuel: 1000
-  fuelConsumptionRatePerFrame: 1
+  fuelConsumptionRatePerFrame: 0.1
   maxSpeed: 3
   dolly: {fileID: 0}
   state: 2
-  acceleratingTime: 2
 --- !u!50 &4085337015528178684
 Rigidbody2D:
   serializedVersion: 4
