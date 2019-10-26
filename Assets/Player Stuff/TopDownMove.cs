@@ -24,7 +24,7 @@ public class TopDownMove : MonoBehaviour
     public Vector2 interactionBoxSize;
     Collider2D[] colliders;
     int collidersSize;
-    LayerMask itemsLayers;
+    public LayerMask itemsLayers;
     GameObject item;
 
     /*
@@ -75,13 +75,14 @@ public class TopDownMove : MonoBehaviour
     {
         state = "DefaultState";
         DefaultState();
-        if(Input.GetKeyDown(KeyCode.E))
-            TryInteract();
+        
     }
 
     void DefaultState()
     {
-        SetMoveDir();    
+        SetMoveDir();  
+        if(Input.GetKeyDown(KeyCode.E))
+            TryInteract();  
     }
 
     void ExitDefaultState()

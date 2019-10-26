@@ -16,6 +16,7 @@ public class Lantern : ItemBase
             transform.parent =player.transform;
             transform.localPosition = offset;
             gameObject.layer = default;
+            GetComponent<BoxCollider2D>().enabled = false;
             return true;
         }
         return false;
