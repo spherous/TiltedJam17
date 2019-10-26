@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Lantern : ItemBase
 {
-    public Vector2 offset;
+    public float offset;
     bool pickedUp = false;
     public int amount;
+    int number;
 
-    public override bool Pickup(GameObject player)
+    public override bool Pickup(GameObject player , int number)
     {
         if(!pickedUp)
         {
             pickedUp = true;
             transform.parent =player.transform;
-            transform.localPosition = offset;
+
+
+            this.number = number + 1;
+            float current = (transform.parent.gameObject.GetComponent<TopDownMove>().currentItems+1);
+            transform.localPosition = new Vector2 ( -.5f + this.number/current/2f, offset ) ;
             gameObject.layer = default;
             GetComponent<BoxCollider2D>().enabled = false;
             return true;
@@ -36,9 +41,15 @@ public class Lantern : ItemBase
             return false;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void LateUpdate()
     {
+        if(transform.parent != null)
+        {
+            float current = (transform.parent.gameObject.GetComponent<TopDownMove>().currentItems);
+            transform.localPosition = new Vector2 ( (-1 +1/(current))/2f + ( (this.number -1)/( current) ), offset ) ;
+
+            transform.localScale = Vector3.one / current;
+        }
     }
 
 }
