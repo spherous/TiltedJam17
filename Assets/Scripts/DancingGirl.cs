@@ -8,6 +8,9 @@ public class DancingGirl : MonoBehaviour
     GameManager gm => GameManager.Instance;
 
     public Light2D light;
+    public float maxLightRadius;
+
+    public float stoppingDistanceOffset;
 
     public float currentFuel;
     public float maxFuel;
@@ -17,9 +20,16 @@ public class DancingGirl : MonoBehaviour
     {
         // Get the distance to the player
         float distance = Vector2.Distance(transform.position, gm.player.transform.position);
+        //if(distance > light.)
         // Move
+        
         // Drain Fuel
         DrainFuel();
+    }
+
+    public void DoMovement()
+    {
+
     }
 
     public void DrainFuel()
