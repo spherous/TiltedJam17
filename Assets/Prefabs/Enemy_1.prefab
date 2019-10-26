@@ -147,3 +147,4 @@ MonoBehaviour:
   _speed: 3.5
   _spawnTimerInSeconds: 1
   _target: {fileID: 0}
+  _girlDancer: {fileID: 0}
