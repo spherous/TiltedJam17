@@ -168,12 +168,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7425f43100cfc6e45ad6bc7bd53373af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 4807798166027119345}
-  maxLightRadius: 0
-  stoppingDistanceOffset: 0
+  girlLight: {fileID: 4807798166027119345}
+  maxLightRadius: 8
+  stoppingDistanceOffset: 1.4
   currentFuel: 1000
   maxFuel: 1000
-  fuelConsumptionRatePerFrame: 0
+  fuelConsumptionRatePerFrame: 1
+  maxSpeed: 3
+  dolly: {fileID: 0}
+  state: 2
+  acceleratingTime: 2
 --- !u!50 &4085337015528178684
 Rigidbody2D:
   serializedVersion: 4
