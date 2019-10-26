@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DancingGirl : MonoBehaviour
 {
-    public GameObject player;
-    
+    GameManager gm => GameManager.Instance;
+
     private void Update()
     {
         // Get the distance to the player
-        float distance = Vector2.Distance(transform.position, player.transform.position);
+        float distance = Vector2.Distance(transform.position, gm.player.transform.position);
         // Move
     }
 }
