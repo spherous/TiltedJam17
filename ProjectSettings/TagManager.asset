@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Fuel
+  - Curse
+  - DialogueTrigger
+  - EndGame
   layers:
   - Default
   - TransparentFX
@@ -41,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Buildings
+    uniqueID: 471499851
     locked: 0

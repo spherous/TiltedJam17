@@ -47,6 +47,8 @@ public class AudioManager : MonoBehaviour {
         {
             Play("Ghost Ship");
         }
+
+        player = GameManager.Instance.player.gameObject;
     }
 
     public void Play(string name)

@@ -26,7 +26,10 @@ public class DancingGirl : MonoBehaviour
 
     float acceleratingTimer = 0;
 
+    public SpriteRenderer spriteRenderer; 
+    
     private void Start() {
+        StartCoroutine(AnimateGirl());
     }
 
     private void Update()
@@ -66,7 +69,7 @@ public class DancingGirl : MonoBehaviour
                     state = GirlStates.stopping;
                 break;
         }
-        
+
         // Drain Fuel
         DrainFuel();
     }
@@ -78,12 +81,49 @@ public class DancingGirl : MonoBehaviour
         girlLight.pointLightOuterRadius = maxLightOuterRadius * (currentFuel/maxFuel);
         girlLight.pointLightInnerRadius = maxLightInnerRadius * (currentFuel/maxFuel);
 
-        if(currentFuel == 0)
+        if(currentFuel <= .2f)
             gm.Lose(); 
     }
 
     public void RefuelLight(float amountOfFuel)
     {
         currentFuel = currentFuel + amountOfFuel < maxFuel ? currentFuel + amountOfFuel : maxFuel;
+    }
+
+    public Sprite[] sprites;
+    public float animationTime;
+
+    IEnumerator AnimateGirl()
+    {
+        float t = 0;
+        int index = 0;
+        while(Application.isPlaying)
+        {
+            t += Time.deltaTime;
+            if(t >= animationTime)
+            {
+                index++;
+                if(index == sprites.Length - 1)
+                    index = 0;
+                spriteRenderer.sprite = sprites[index];
+                t = 0;
+            }
+            yield return null;
+        }
+    }
+
+    public InkScript ink;
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.CompareTag("DialogueTrigger"))
+        {
+            dolly.m_Speed = 0;
+            state = GirlStates.stopped;
+            gm.PauseGame();
+            ink.NewDialogue();
+        }
+        else if(other.gameObject.CompareTag("EndGame"))
+        {
+            gm.EndGame();
+        }
     }
 }

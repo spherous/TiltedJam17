@@ -43,7 +43,7 @@ public class Lantern : ItemBase
 
     void LateUpdate()
     {
-        if(transform.parent != null)
+        if(transform.parent == GameManager.Instance.player.transform.root)
         {
             float current = (transform.parent.gameObject.GetComponent<TopDownMove>().currentItems);
             transform.localPosition = new Vector2 ( (-1 +1/(current))/2f + ( (this.number -1)/( current) ), offset ) ;
