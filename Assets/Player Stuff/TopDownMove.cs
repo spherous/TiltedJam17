@@ -67,6 +67,9 @@ public class TopDownMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!GameManager.Instance.gamePlaying)
+            return;
+
         if(moveVec!= Vector2.zero)
             GetComponent<Rigidbody2D>().MovePosition( (Vector2)(transform.position) + moveVec*speed*Time.fixedDeltaTime);
     }
@@ -86,8 +89,8 @@ public class TopDownMove : MonoBehaviour
         SetMoveDir();  
         SetInteractionBoxOffset();
 
-        if(Input.GetKeyDown(KeyCode.E))
-            TryInteract();  
+        //if(Input.GetKeyDown(KeyCode.E))
+        TryInteract();  
     }
 
     void ExitDefaultState()
@@ -202,6 +205,10 @@ Vector2[] cardinalDirections= {
         return collidersSize > 0;
     }
 
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.CompareTag("Fuel"))
+            TryInteract();
+    }
 
 
 
