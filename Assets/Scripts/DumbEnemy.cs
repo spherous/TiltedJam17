@@ -22,6 +22,16 @@ public class DumbEnemy : MonoBehaviour
     private Vector2 moveVec;
     private float _baseSpeed;
 
+    /// <summary>
+    /// Max speed that enemy chases the player. 
+    /// Also affects running away Speed.
+    /// </summary>
+    public float BaseSpeed
+    {
+        get => _baseSpeed;
+        set { _baseSpeed = value; }
+    }
+
 
     private void Awake()
     {
