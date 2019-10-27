@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DumbEnemy : MonoBehaviour
+public class DumbEnemy : EnemyBase
 {
     [Range(1f, 100f)]
     public float health = 10;
@@ -18,9 +18,11 @@ public class DumbEnemy : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     private Dictionary<string, Action> States;
-    private string _currentState;
     private Vector2 moveVec;
     private float _baseSpeed;
+
+    GameManager gm => GameManager.Instance;
+
 
     /// <summary>
     /// Max speed that enemy chases the player. 
@@ -41,7 +43,6 @@ public class DumbEnemy : MonoBehaviour
         set { _spawnTimerInSeconds = value; }
     }
 
-    public string CurrentState { get => _currentState; }
 
 
     private void Awake()
@@ -53,14 +54,16 @@ public class DumbEnemy : MonoBehaviour
 
         States = new Dictionary<string, Action>();
         States["DefaultState"] = DefaultState; // Chase player
-        States["Spawn"] = Spawn;
-        States["Scared"] = Scared;
+        States["SpawnState"] = SpawnState;
+        States["ScaredState"] = ScaredState;
     }
 
     private void Start()
     {
         moveVec = Vector2.zero;
         EnterSpawnState();
+        _target = gm.player.gameObject;
+        _target = gm.dancer.gameObject;
     }
 
     void Update()
@@ -68,12 +71,12 @@ public class DumbEnemy : MonoBehaviour
         if (!GameManager.Instance.gamePlaying)
             return;
 
-        States[_currentState]();
+        States[CurrentState]();
 
         // Is this enemy in the girls light radius
         float distFromGirl = Mathf.Abs(Vector3.Distance(transform.position, _girlDancer.transform.position));
         if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius &&
-            _currentState != "Scared")
+            CurrentState != "ScaredState")
         {
             EnterScaredState(4f);
         }
@@ -90,10 +93,44 @@ public class DumbEnemy : MonoBehaviour
 
     //STATES
 
+    private void EnterSpawnState()
+    {
+        // Enemy starts invisible
+        var color = _spriteRenderer.color;
+        color.a = 0;
+        _spriteRenderer.color = color;
+
+        CurrentState = "SpawnState";
+        SpawnState();
+    }
+
+        // The enemy will fade in over time
+    private float _spawnCounter = 0;
+    private void SpawnState()
+    {
+        _spawnCounter += Time.deltaTime/_spawnTimerInSeconds;
+        var color = _spriteRenderer.color;
+
+        color.a = Mathf.Lerp(0, 1, _spawnCounter);
+
+        _spriteRenderer.color = color;
+
+        if(_spriteRenderer.color.a >= 1f)
+        {
+            EnterDefaultState();
+        }
+    }
+
+    private void ExitSpawnState()
+    {
+        EnterDefaultState();
+    }
+
+
     //      DEFAULT
     void EnterDefaultState()
     {
-        _currentState = "DefaultState";
+        CurrentState = "DefaultState";
         DefaultState();
     }
 
@@ -108,33 +145,21 @@ public class DumbEnemy : MonoBehaviour
         
     }
 
-    private void EnterSpawnState()
-    {
-        // Enemy starts invisible
-        var color = _spriteRenderer.color;
-        color.a = 0;
-        _spriteRenderer.color = color;
+    
 
-        _currentState = "Spawn";
-        Spawn();
-    }
-
-    private void ExitSpawnState()
+    public override void EnterScaredState(float scaredTimer)
     {
-        EnterDefaultState();
-    }
-
-    public void EnterScaredState(float scaredTimer)
-    {
-        _currentState = "Scared";
+        CurrentState = "ScaredState";
         moveVec = Vector2.zero;
         Invoke("EnterDefaultState", scaredTimer);
     }
 
-    private void Scared()
+    private void ScaredState()
     {
         MoveAwayFromGirl();
     }
+
+
 
     //FUNCTIONS
 
@@ -155,20 +180,5 @@ public class DumbEnemy : MonoBehaviour
         moveVec = (Vector2)(transform.position - _girlDancer.transform.position).normalized;
     }
 
-    // The enemy will fade in over time
-    private float _spawnCounter = 0;
-    private void Spawn()
-    {
-        _spawnCounter += Time.deltaTime/_spawnTimerInSeconds;
-        var color = _spriteRenderer.color;
 
-        color.a = Mathf.Lerp(0, 1, _spawnCounter);
-
-        _spriteRenderer.color = color;
-
-        if(_spriteRenderer.color.a >= 1f)
-        {
-            EnterDefaultState();
-        }
-    }
 }
