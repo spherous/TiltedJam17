@@ -10,6 +10,7 @@ public class DumbEnemy : MonoBehaviour
 
     [Range(0f, 50f)] [SerializeField] private float _speed = 5f;
     [Range(.1f, 10)] [SerializeField] private float _spawnTimerInSeconds = 2;
+    [SerializeField] private string[] _voiceLines;
     [SerializeField] private GameObject _target;
     [SerializeField] private GameObject _girlDancer;
     
@@ -21,6 +22,7 @@ public class DumbEnemy : MonoBehaviour
     private string _currentState;
     private Vector2 moveVec;
     private float _baseSpeed;
+    private bool _playVoice = true;
 
     /// <summary>
     /// Max speed that enemy chases the player. 
@@ -76,6 +78,19 @@ public class DumbEnemy : MonoBehaviour
             _currentState != "Scared")
         {
             EnterScaredState(4f);
+        }
+
+
+        var distFromPlayer = Mathf.Abs(Vector3.Distance(transform.position, _target.transform.position));
+        if (_playVoice && distFromPlayer < 3f)
+        {
+            var index = UnityEngine.Random.Range(0, _voiceLines.Length - 1);
+            if (!AudioManager.instance.IsPlaying(_voiceLines[index]))
+            {
+                AudioManager.instance.Play(_voiceLines[index]);
+                _playVoice = false;
+                Invoke("SetVoiceLineToTrue", 4f);
+            }
         }
     }
 
@@ -170,5 +185,10 @@ public class DumbEnemy : MonoBehaviour
         {
             EnterDefaultState();
         }
+    }
+
+    private void SetVoiceLineToTrue()
+    {
+        _playVoice = true;
     }
 }

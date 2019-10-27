@@ -147,6 +147,12 @@ MonoBehaviour:
   health: 10
   _speed: 3.5
   _spawnTimerInSeconds: 1
+  _voiceLines:
+  - Enemy Voice 1
+  - Enemy Voice 2
+  - Enemy Voice 3
+  - Enemy Voice 4
+  - Enemy Voice 5
   _target: {fileID: 0}
   _girlDancer: {fileID: 0}
 --- !u!114 &7959913103617358461
