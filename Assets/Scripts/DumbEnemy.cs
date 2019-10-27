@@ -41,6 +41,8 @@ public class DumbEnemy : MonoBehaviour
         set { _spawnTimerInSeconds = value; }
     }
 
+    public string CurrentState { get => _currentState; }
+
 
     private void Awake()
     {
@@ -116,7 +118,7 @@ public class DumbEnemy : MonoBehaviour
         EnterDefaultState();
     }
 
-    private void EnterScaredState()
+    public void EnterScaredState()
     {
         _currentState = "Scared";
         moveVec = Vector2.zero;
