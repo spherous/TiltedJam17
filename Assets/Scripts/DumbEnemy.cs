@@ -22,6 +22,27 @@ public class DumbEnemy : MonoBehaviour
     private Vector2 moveVec;
     private float _baseSpeed;
 
+    /// <summary>
+    /// Max speed that enemy chases the player. 
+    /// Also affects running away Speed.
+    /// </summary>
+    public float BaseSpeed
+    {
+        get => _baseSpeed;
+        set { _baseSpeed = value; }
+    }
+
+    /// <summary>
+    /// How fast the enemy spawns. Only affects enemy during spawn state
+    /// </summary>
+    public float SpawnTimerInSeconds
+    {
+        get => _spawnTimerInSeconds;
+        set { _spawnTimerInSeconds = value; }
+    }
+
+    public string CurrentState { get => _currentState; }
+
 
     private void Awake()
     {
@@ -31,7 +52,7 @@ public class DumbEnemy : MonoBehaviour
         _baseSpeed = _speed;
 
         States = new Dictionary<string, Action>();
-        States["DefaultState"] = DefaultState;
+        States["DefaultState"] = DefaultState; // Chase player
         States["Spawn"] = Spawn;
         States["Scared"] = Scared;
     }
@@ -46,8 +67,10 @@ public class DumbEnemy : MonoBehaviour
     {
         States[_currentState]();
 
+        // Is this enemy in the girls light radius
         float distFromGirl = Mathf.Abs(Vector3.Distance(transform.position, _girlDancer.transform.position));
-        if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius)
+        if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius &&
+            _currentState != "Scared")
         {
             EnterScaredState();
         }
@@ -81,7 +104,7 @@ public class DumbEnemy : MonoBehaviour
 
     private void EnterSpawnState()
     {
-        // Make Invisible
+        // Enemy starts invisible
         var color = _spriteRenderer.color;
         color.a = 0;
         _spriteRenderer.color = color;
@@ -95,7 +118,7 @@ public class DumbEnemy : MonoBehaviour
         EnterDefaultState();
     }
 
-    private void EnterScaredState()
+    public void EnterScaredState()
     {
         _currentState = "Scared";
         moveVec = Vector2.zero;
@@ -122,7 +145,7 @@ public class DumbEnemy : MonoBehaviour
 
     void MoveAwayFromGirl()
     {
-        _speed = _baseSpeed / 3f;
+        _speed = _baseSpeed / 4f;
         moveVec = (Vector2)(transform.position - _girlDancer.transform.position).normalized;
     }
 
