@@ -100,7 +100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4646286980676301994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7153214, y: 1.6023, z: -38.720703}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2402577694823869399}
@@ -146,7 +146,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: d8427b0d628ba3240b99121ca29c035a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5225fde6d8e6b014e9fdf3f1bc483ca8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -174,11 +174,19 @@ MonoBehaviour:
   maxLightInnerRadius: 7
   stoppingDistanceOffset: 1.4
   currentFuel: 1000
-  maxFuel: 10000
-  fuelConsumptionRatePerFrame: 0
-  maxSpeed: 3
+  maxFuel: 1000
+  fuelConsumptionRatePerFrame: 0.3
+  maxSpeed: 6
   dolly: {fileID: 0}
   state: 0
+  spriteRenderer: {fileID: 4646286980676301995}
+  sprites:
+  - {fileID: 21300000, guid: 5225fde6d8e6b014e9fdf3f1bc483ca8, type: 3}
+  - {fileID: 21300000, guid: 02a9a127ad9405745951b9477249958b, type: 3}
+  - {fileID: 21300000, guid: c5588bdcc0367c4479599b3036b24c74, type: 3}
+  - {fileID: 21300000, guid: 7617ef58a45407543a1122297e7453f8, type: 3}
+  animationTime: 0.2
+  ink: {fileID: 0}
 --- !u!50 &4085337015528178684
 Rigidbody2D:
   serializedVersion: 4

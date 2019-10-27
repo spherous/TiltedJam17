@@ -6,7 +6,7 @@ using TMPro;
 
 public class InkScript : MonoBehaviour
 {
-    public TextAsset inkJSON;
+    public TextAsset[] inkJSON;
     private Story story;
 
     public Canvas dialogueBox;
@@ -17,7 +17,7 @@ public class InkScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        story = new Story(inkJSON.text);
+        story = new Story(inkJSON[0].text);
 
         dialogueText.text = LoadStoryChunk();
 
@@ -46,6 +46,16 @@ public class InkScript : MonoBehaviour
 
         dialogueText.text = LoadStoryChunk();
         
+        foreach(Choice c in story.currentChoices)
+            playerChoiceText.text = c.text;
+    }
+
+    public void NewDialogue()
+    {
+        dialogueBox.enabled = true;
+        story = new Story(inkJSON[1].text);
+        dialogueText.text = LoadStoryChunk();
+
         foreach(Choice c in story.currentChoices)
             playerChoiceText.text = c.text;
     }
