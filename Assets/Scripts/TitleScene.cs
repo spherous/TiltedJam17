@@ -38,12 +38,12 @@ public class TitleScene : MonoBehaviour {
     void StartGame()
     {
         Debug.Log("STARTOOO, Hajimariyo!");
-        StartCoroutine(LoadingScene());
+        StartCoroutine(LoadingScene("MainScene"));
     }
     
-    IEnumerator LoadingScene()
+    IEnumerator LoadingScene(string scene)
     {
         yield return new WaitForEndOfFrame();
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene(scene);
     }
 }

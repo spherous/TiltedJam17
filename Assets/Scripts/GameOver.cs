@@ -12,6 +12,8 @@ public class GameOver : MonoBehaviour
     public Button Resume;
     public Button Quit;
 
+    public Canvas GameOverCanvas;
+
     public bool Dead = false;
 
 
@@ -28,6 +30,7 @@ public class GameOver : MonoBehaviour
 
     void EndGame()
     {
+        GameOverCanvas.gameObject.SetActive(true);
         Dead = true;
         StartCoroutine(FadeTextIn(5f, EndWords));
     }
