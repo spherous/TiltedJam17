@@ -71,7 +71,19 @@ public class TopDownMove : MonoBehaviour
             return;
 
         if(moveVec!= Vector2.zero)
-            GetComponent<Rigidbody2D>().MovePosition( (Vector2)(transform.position) + moveVec*speed*Time.fixedDeltaTime);
+        {
+            GetComponent<Rigidbody2D>().MovePosition((Vector2)(transform.position) + moveVec * speed * Time.fixedDeltaTime);
+            if(!AudioManager.instance.IsPlaying("Grass Step 1"))
+            {
+                AudioManager.instance.Play("Grass Step 1");
+            }
+        }
+
+        if(AudioManager.instance.IsPlaying("Grass Step 1") && moveVec == Vector2.zero)
+        {
+            AudioManager.instance.Pause("Grass Step 1");
+        }
+        
     }
 
     //STATES

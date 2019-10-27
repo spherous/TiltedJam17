@@ -86,4 +86,10 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Grass Step 1
+    clip: {fileID: 8300000, guid: 0a1d04f3748a31040b41957912747661, type: 3}
+    volume: 0.805
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   player: {fileID: 0}
