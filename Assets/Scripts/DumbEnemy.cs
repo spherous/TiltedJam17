@@ -32,6 +32,15 @@ public class DumbEnemy : MonoBehaviour
         set { _baseSpeed = value; }
     }
 
+    /// <summary>
+    /// How fast the enemy spawns. Only affects enemy during spawn state
+    /// </summary>
+    public float SpawnTimerInSeconds
+    {
+        get => _spawnTimerInSeconds;
+        set { _spawnTimerInSeconds = value; }
+    }
+
 
     private void Awake()
     {
@@ -58,7 +67,8 @@ public class DumbEnemy : MonoBehaviour
 
         // Is this enemy in the girls light radius
         float distFromGirl = Mathf.Abs(Vector3.Distance(transform.position, _girlDancer.transform.position));
-        if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius)
+        if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius &&
+            _currentState != "Scared")
         {
             EnterScaredState();
         }
