@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     public DancingGirl dancer;
     public EnemySpawner[] spawners;
-    public bool gamePlaying {get; private set;} = false;
+    public bool gamePlaying;// {get; private set;} = false;
 
     public void Lose()
     {
