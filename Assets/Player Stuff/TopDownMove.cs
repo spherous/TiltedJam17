@@ -139,18 +139,22 @@ public class TopDownMove : MonoBehaviour
                 }
             }
         }
-        if(currentItems > 0) //we have something, try using our item on it. 
-        {
+        
             collidersSize = Physics2D.OverlapBoxNonAlloc( (Vector2) transform.position + interactionBoxOffset , interactionBoxSize , 0f , colliders );//dont care about layers
             for( int i = 0 ; i < collidersSize ; i++)
             {
+                if(currentItems > 0) //we have something, try using our item on it. 
                 if( items[currentItems-1].GetComponent<ItemBase>().Use(colliders[i].gameObject) ) //when "Use" returns true, quit out;
                 {
                     PopItem();
                     return;
                 }  
+                if( colliders[i].gameObject.tag == "Curse")
+                {
+                    colliders[i].gameObject.GetComponent<CurseShrine>().Curse();
+                }
             }
-        }
+        
     }
 
     void AddItem(GameObject g) //must be called from context where currentItems< maxItems is guaranteed
@@ -186,7 +190,10 @@ Vector2[] cardinalDirections= {
             if(dots[i] > dots[maxi])
                 maxi = i;
         }
-        interactionBoxOffset = cardinalDirections[maxi];
+        if(dots[maxi] > .0001f)
+            interactionBoxOffset = cardinalDirections[maxi];
+        else
+            interactionBoxOffset = Vector2.zero;
     }
 
     bool CheckBoxOverlap( Vector2 center, Vector2 size, float rotation, LayerMask checkLayers)

@@ -26,4 +26,12 @@ public class GameManager : MonoBehaviour
     {
         gamePlaying = true;
     }
+
+    public void ApplyCurse(float howMuch)
+    {
+        foreach(EnemySpawner enemySpawner in spawners)
+        {
+            enemySpawner.probability *= howMuch;
+        }
+    }
 }
