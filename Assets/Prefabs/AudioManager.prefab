@@ -46,6 +46,12 @@ MonoBehaviour:
   sounds:
   - name: Cemetery
     clip: {fileID: 8300000, guid: e1edba662ecbf9f43aefa1371b5dc45c, type: 3}
+    volume: 0.819
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Ghost Ship
+    clip: {fileID: 8300000, guid: a4ffb24c138de9a418e92a2696ee1c3a, type: 3}
     volume: 1
     pitch: 1
     loop: 1

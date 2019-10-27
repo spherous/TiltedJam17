@@ -42,6 +42,11 @@ public class AudioManager : MonoBehaviour {
         {
             Play("Cemetery");
         }
+
+        if(!IsPlaying("Ghost Ship"))
+        {
+            Play("Ghost Ship");
+        }
     }
 
     public void Play(string name)
