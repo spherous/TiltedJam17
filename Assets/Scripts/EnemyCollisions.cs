@@ -17,7 +17,7 @@ public class EnemyCollisions : MonoBehaviour
         if (collision.gameObject.GetComponent<TopDownMove>())
         {
             // Collided with Player
-            Debug.Log("Hit the Player");
+            //GameManager.Instance.Lose();
         }
 
         if (collision.gameObject.GetComponent<DumbEnemy>())

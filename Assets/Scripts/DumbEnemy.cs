@@ -81,6 +81,9 @@ public class DumbEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!GameManager.Instance.gamePlaying)
+            return;
+
         if (moveVec != Vector2.zero)
             _rb.MovePosition((Vector2)(transform.position) + moveVec * _speed * Time.fixedDeltaTime);
     }
