@@ -56,4 +56,34 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: Enemy Voice 1
+    clip: {fileID: 8300000, guid: d425f86399fbbe945b9b549a23a6562d, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Enemy Voice 2
+    clip: {fileID: 8300000, guid: b5ac973127b63ef45a690aa89add95d6, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Enemy Voice 3
+    clip: {fileID: 8300000, guid: b33200919122b444892e978305135275, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Enemy Voice 4
+    clip: {fileID: 8300000, guid: a85f6fdd98a1069499ad7478647cb87f, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Enemy Voice 5
+    clip: {fileID: 8300000, guid: 5f9145a8d3bdfd44094b4f23abb403e3, type: 3}
+    volume: 0.805
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   player: {fileID: 0}

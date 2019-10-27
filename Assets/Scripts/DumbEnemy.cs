@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DumbEnemy : EnemyBase
+public class DumbEnemy : MonoBehaviour
 {
     [Range(1f, 100f)]
     public float health = 10;
 
     [Range(0f, 50f)] [SerializeField] private float _speed = 5f;
     [Range(.1f, 10)] [SerializeField] private float _spawnTimerInSeconds = 2;
+    [SerializeField] private string[] _voiceLines;
     [SerializeField] private GameObject _target;
     [SerializeField] private GameObject _girlDancer;
     
@@ -18,11 +19,10 @@ public class DumbEnemy : EnemyBase
     private SpriteRenderer _spriteRenderer;
 
     private Dictionary<string, Action> States;
+    private string _currentState;
     private Vector2 moveVec;
     private float _baseSpeed;
-
-    GameManager gm => GameManager.Instance;
-
+    private bool _playVoice = true;
 
     /// <summary>
     /// Max speed that enemy chases the player. 
@@ -43,6 +43,7 @@ public class DumbEnemy : EnemyBase
         set { _spawnTimerInSeconds = value; }
     }
 
+    public string CurrentState { get => _currentState; }
 
 
     private void Awake()
@@ -54,16 +55,14 @@ public class DumbEnemy : EnemyBase
 
         States = new Dictionary<string, Action>();
         States["DefaultState"] = DefaultState; // Chase player
-        States["SpawnState"] = SpawnState;
-        States["ScaredState"] = ScaredState;
+        States["Spawn"] = Spawn;
+        States["Scared"] = Scared;
     }
 
     private void Start()
     {
         moveVec = Vector2.zero;
         EnterSpawnState();
-        _target = gm.player.gameObject;
-        _target = gm.dancer.gameObject;
     }
 
     void Update()
@@ -71,14 +70,27 @@ public class DumbEnemy : EnemyBase
         if (!GameManager.Instance.gamePlaying)
             return;
 
-        States[CurrentState]();
+        States[_currentState]();
 
         // Is this enemy in the girls light radius
         float distFromGirl = Mathf.Abs(Vector3.Distance(transform.position, _girlDancer.transform.position));
         if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius &&
-            CurrentState != "ScaredState")
+            _currentState != "Scared")
         {
             EnterScaredState(4f);
+        }
+
+
+        var distFromPlayer = Mathf.Abs(Vector3.Distance(transform.position, _target.transform.position));
+        if (_playVoice && distFromPlayer < 3f)
+        {
+            var index = UnityEngine.Random.Range(0, _voiceLines.Length - 1);
+            if (!AudioManager.instance.IsPlaying(_voiceLines[index]))
+            {
+                AudioManager.instance.Play(_voiceLines[index]);
+                _playVoice = false;
+                Invoke("SetVoiceLineToTrue", 4f);
+            }
         }
     }
 
@@ -93,44 +105,10 @@ public class DumbEnemy : EnemyBase
 
     //STATES
 
-    private void EnterSpawnState()
-    {
-        // Enemy starts invisible
-        var color = _spriteRenderer.color;
-        color.a = 0;
-        _spriteRenderer.color = color;
-
-        CurrentState = "SpawnState";
-        SpawnState();
-    }
-
-        // The enemy will fade in over time
-    private float _spawnCounter = 0;
-    private void SpawnState()
-    {
-        _spawnCounter += Time.deltaTime/_spawnTimerInSeconds;
-        var color = _spriteRenderer.color;
-
-        color.a = Mathf.Lerp(0, 1, _spawnCounter);
-
-        _spriteRenderer.color = color;
-
-        if(_spriteRenderer.color.a >= 1f)
-        {
-            EnterDefaultState();
-        }
-    }
-
-    private void ExitSpawnState()
-    {
-        EnterDefaultState();
-    }
-
-
     //      DEFAULT
     void EnterDefaultState()
     {
-        CurrentState = "DefaultState";
+        _currentState = "DefaultState";
         DefaultState();
     }
 
@@ -145,21 +123,33 @@ public class DumbEnemy : EnemyBase
         
     }
 
-    
-
-    public override void EnterScaredState(float scaredTimer)
+    private void EnterSpawnState()
     {
-        CurrentState = "ScaredState";
+        // Enemy starts invisible
+        var color = _spriteRenderer.color;
+        color.a = 0;
+        _spriteRenderer.color = color;
+
+        _currentState = "Spawn";
+        Spawn();
+    }
+
+    private void ExitSpawnState()
+    {
+        EnterDefaultState();
+    }
+
+    public void EnterScaredState(float scaredTimer)
+    {
+        _currentState = "Scared";
         moveVec = Vector2.zero;
         Invoke("EnterDefaultState", scaredTimer);
     }
 
-    private void ScaredState()
+    private void Scared()
     {
         MoveAwayFromGirl();
     }
-
-
 
     //FUNCTIONS
 
@@ -180,5 +170,25 @@ public class DumbEnemy : EnemyBase
         moveVec = (Vector2)(transform.position - _girlDancer.transform.position).normalized;
     }
 
+    // The enemy will fade in over time
+    private float _spawnCounter = 0;
+    private void Spawn()
+    {
+        _spawnCounter += Time.deltaTime/_spawnTimerInSeconds;
+        var color = _spriteRenderer.color;
 
+        color.a = Mathf.Lerp(0, 1, _spawnCounter);
+
+        _spriteRenderer.color = color;
+
+        if(_spriteRenderer.color.a >= 1f)
+        {
+            EnterDefaultState();
+        }
+    }
+
+    private void SetVoiceLineToTrue()
+    {
+        _playVoice = true;
+    }
 }
