@@ -27,11 +27,13 @@ public class DancingGirl : MonoBehaviour
     float acceleratingTimer = 0;
 
     private void Start() {
-        dolly.m_Speed = maxSpeed;
     }
 
     private void Update()
     {
+        if(!gm.gamePlaying)
+            return;
+            
         // Get the distance to the player
         float distance = Vector2.Distance(transform.position, gm.player.transform.position);
         
@@ -48,7 +50,7 @@ public class DancingGirl : MonoBehaviour
                     state = GirlStates.stopped;
                 }
                 dolly.m_Speed = Mathf.Lerp(0, dolly.m_Speed, acceleratingTimer);
-                    acceleratingTimer += Time.deltaTime;
+                acceleratingTimer += Time.deltaTime;
                 break;
             case GirlStates.accelerating:
                 if(dolly.m_Speed == maxSpeed)
