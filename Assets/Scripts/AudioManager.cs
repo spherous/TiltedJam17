@@ -38,8 +38,10 @@ public class AudioManager : MonoBehaviour {
 
     void Start()
     {
-
-
+        if (!IsPlaying("Cemetery"))
+        {
+            Play("Cemetery");
+        }
     }
 
     public void Play(string name)
@@ -53,6 +55,7 @@ public class AudioManager : MonoBehaviour {
         }
              
         s.source.Play();
+        Debug.Log("Playing " + name);
     }
 
     public void Stop(string name)
