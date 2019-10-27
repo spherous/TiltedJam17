@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class CurseShrine : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    GameManager gm => GameManager.Instance;
+    bool used = false;
+    public void Curse()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(!used)
+        {
+            gm.ApplyCurse(1.1f);
+        }
+        used = true;
     }
 }
