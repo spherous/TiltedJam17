@@ -13,5 +13,10 @@ public class CurseShrine : MonoBehaviour
             gm.ApplyCurse(1.1f);
         }
         used = true;
+        UnityEngine.Experimental.Rendering.Universal.Light2D light;
+        if( TryGetComponent(out light) ) 
+        {
+            light.enabled = true;
+        }
     }
 }
