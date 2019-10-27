@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     {
         gamePlaying = true;
     }
+    public void PauseGame()
+    {
+        gamePlaying = false;
+    }
 
     public void ApplyCurse(float howMuch)
     {
@@ -33,5 +37,10 @@ public class GameManager : MonoBehaviour
         {
             enemySpawner.probability *= howMuch;
         }
+    }
+
+    public void EndGame()
+    {
+        // End the game.
     }
 }

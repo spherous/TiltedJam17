@@ -190,10 +190,7 @@ Vector2[] cardinalDirections= {
             if(dots[i] > dots[maxi])
                 maxi = i;
         }
-        if(dots[maxi] > .0001f)
-            interactionBoxOffset = cardinalDirections[maxi];
-        else
-            interactionBoxOffset = Vector2.zero;
+        interactionBoxOffset = Vector2.zero;
     }
 
     bool CheckBoxOverlap( Vector2 center, Vector2 size, float rotation, LayerMask checkLayers)
