@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public Player player;
     public DancingGirl dancer;
+    public EnemySpawner[] spawners;
 
     public void Lose()
     {
