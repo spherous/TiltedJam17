@@ -25,7 +25,7 @@ public class EnemyCollisions : MonoBehaviour
             if (_dumbEnemy.CurrentState == "Scared" &&
             collision.gameObject.GetComponent<DumbEnemy>().CurrentState != "Scared")
             {
-                collision.gameObject.GetComponent<DumbEnemy>().EnterScaredState();
+                collision.gameObject.GetComponent<DumbEnemy>().EnterScaredState(4f);
                 //Debug.Log("Scare spread too another ghoul");
             }
         }

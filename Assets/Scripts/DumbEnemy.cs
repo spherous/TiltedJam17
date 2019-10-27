@@ -65,6 +65,9 @@ public class DumbEnemy : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.gamePlaying)
+            return;
+
         States[_currentState]();
 
         // Is this enemy in the girls light radius
@@ -72,7 +75,7 @@ public class DumbEnemy : MonoBehaviour
         if(distFromGirl < _girlDancer.GetComponent<DancingGirl>().girlLight.pointLightInnerRadius &&
             _currentState != "Scared")
         {
-            EnterScaredState();
+            EnterScaredState(4f);
         }
     }
 
@@ -118,11 +121,11 @@ public class DumbEnemy : MonoBehaviour
         EnterDefaultState();
     }
 
-    public void EnterScaredState()
+    public void EnterScaredState(float scaredTimer)
     {
         _currentState = "Scared";
         moveVec = Vector2.zero;
-        Invoke("EnterDefaultState", 4f);
+        Invoke("EnterDefaultState", scaredTimer);
     }
 
     private void Scared()
